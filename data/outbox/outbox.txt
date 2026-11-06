@@ -1,0 +1,112 @@
+----- 2026-11-03 08:53:42 -----
+To: hunter@example.com
+Subject: Booking confirmed BKAEDBB2DD
+
+Booking BKAEDBB2DD confirmed: Kandy Dreams, 04 Nov 2026, 11:00, CineMax Negombo / Screen 1 - Standard, seats A1, A2.
+
+Add this show to your calendar: https://calendar.google.com/calendar/render?action=TEMPLATE&text=Kandy+Dreams+at+CineMax&dates=20261104T110000/20261104T130400&ctz=Asia%2FColombo&location=CineMax+Negombo&details=Booking+BKAEDBB2DD%2C+seats+A1%2C+A2
+Your ticket and booking details are in My bookings on CineMax.
+
+Attached: cinemax-ticket-BKAEDBB2DD.pdf
+
+----- 2026-11-03 08:54:09 -----
+To: customer@cinema.lk
+Subject: Booking confirmed BK50179282
+
+Booking BK50179282 confirmed: Kandy Dreams, 08 Nov 2026, 10:00, CineMax Negombo / Screen 1 - Standard, seats B3, B4, B5.
+
+Add this show to your calendar: https://calendar.google.com/calendar/render?action=TEMPLATE&text=Kandy+Dreams+at+CineMax&dates=20261108T100000/20261108T120400&ctz=Asia%2FColombo&location=CineMax+Negombo&details=Booking+BK50179282%2C+seats+B3%2C+B4%2C+B5
+Your ticket and booking details are in My bookings on CineMax.
+
+Attached: cinemax-ticket-BK50179282.pdf
+
+----- 2026-11-03 08:54:09 -----
+To: customer@cinema.lk
+Subject: Booking cancelled BK50179282
+
+Booking BK50179282 for Kandy Dreams was cancelled. Refund: LKR 3840.00.
+
+----- 2026-11-03 08:54:11 -----
+To: customer@cinema.lk
+Subject: Booking confirmed BK23D4E1C1
+
+Booking BK23D4E1C1 confirmed: Kandy Dreams, 24 Nov 2026, 18:30, CineMax Negombo / Screen 1 - Standard, seats E1, E2.
+
+Add this show to your calendar: https://calendar.google.com/calendar/render?action=TEMPLATE&text=Kandy+Dreams+at+CineMax&dates=20261124T183000/20261124T203400&ctz=Asia%2FColombo&location=CineMax+Negombo&details=Booking+BK23D4E1C1%2C+seats+E1%2C+E2
+Your ticket and booking details are in My bookings on CineMax.
+
+Attached: cinemax-ticket-BK23D4E1C1.pdf
+
+----- 2026-11-03 08:54:11 -----
+To: customer@cinema.lk
+Subject: Seats released BK23D4E1C1
+
+Seat(s) E2 released from booking BK23D4E1C1. LKR 2160.00 went back to your wallet.
+
+Add this show to your calendar: https://calendar.google.com/calendar/render?action=TEMPLATE&text=Kandy+Dreams+at+CineMax&dates=20261124T183000/20261124T203400&ctz=Asia%2FColombo&location=CineMax+Negombo&details=Booking+BK23D4E1C1%2C+seats+E1
+Your ticket and booking details are in My bookings on CineMax.
+
+----- 2026-11-03 08:54:11 -----
+To: customer@cinema.lk
+Subject: Booking cancelled BK23D4E1C1
+
+Booking BK23D4E1C1 for Kandy Dreams was cancelled. Refund: LKR 2160.00.
+
+----- 2026-11-03 09:16:45 -----
+To: customer@cinema.lk
+Subject: Booking confirmed BKE97A1933
+
+Booking BKE97A1933 confirmed: Neon Circuit, 04 Nov 2026, 11:00, CineMax Negombo / Screen 3 - VIP, seats C3, C4.
+
+Add this show to your calendar: https://calendar.google.com/calendar/render?action=TEMPLATE&text=Neon+Circuit+at+CineMax&dates=20261104T110000/20261104T132100&ctz=Asia%2FColombo&location=CineMax+Negombo&details=Booking+BKE97A1933%2C+seats+C3%2C+C4
+Your ticket and booking details are in My bookings on CineMax.
+
+Attached: cinemax-ticket-BKE97A1933.pdf
+
+----- 2026-11-03 09:17:28 -----
+To: j1793677034@example.com
+Subject: Seat hold expired: BKF4F720CF
+
+Your seat hold for Midnight Harbor (BKF4F720CF) expired. Reserve the seats again to book.
+
+----- 2026-11-03 10:44:46 -----
+To: j1793677216@example.com
+Subject: Seat hold expired: BK8F434153
+
+Your seat hold for Midnight Harbor (BK8F434153) expired. Reserve the seats again to book.
+
+----- 2026-11-03 10:44:46 -----
+To: r2-1793677641@ex.com
+Subject: Seat hold expired: BK1D264988
+
+Your seat hold for Midnight Harbor (BK1D264988) expired. Reserve the seats again to book.
+
+----- 2026-11-03 10:44:47 -----
+To: customer@cinema.lk
+Subject: Booking confirmed BK8A110C86
+
+Booking BK8A110C86 confirmed: Kandy Dreams, 04 Nov 2026, 11:00, CineMax Colombo / Screen 1 - Standard, seats A9.
+
+Add this show to your calendar: https://calendar.google.com/calendar/render?action=TEMPLATE&text=Kandy+Dreams+at+CineMax&dates=20261104T110000/20261104T130400&ctz=Asia%2FColombo&location=CineMax+Colombo&details=Booking+BK8A110C86%2C+seats+A9
+Your ticket and booking details are in My bookings on CineMax.
+
+Attached: cinemax-ticket-BK8A110C86.pdf
+
+----- 2026-11-03 11:27:43 -----
+To: customer@cinema.lk
+Subject: Show reminder BK7711A5B2
+
+Reminder: Kandy Dreams starts in 23 h 32 min at CineMax Negombo (Screen 1 - Standard). Seats H11. Ref BK7711A5B2.
+
+Add this show to your calendar: https://calendar.google.com/calendar/render?action=TEMPLATE&text=Kandy+Dreams+at+CineMax&dates=20261104T110000/20261104T130400&ctz=Asia%2FColombo&location=CineMax+Negombo&details=Booking+BK7711A5B2%2C+seats+H11
+Your ticket and booking details are in My bookings on CineMax.
+
+----- 2026-11-03 11:48:37 -----
+To: customer@cinema.lk
+Subject: Show reminder BK83F0BD83
+
+Reminder: Kandy Dreams starts in 23 h 11 min at CineMax Negombo (Screen 1 - Standard). Seats H12. Ref BK83F0BD83.
+
+Add this show to your calendar: https://calendar.google.com/calendar/render?action=TEMPLATE&text=Kandy+Dreams+at+CineMax&dates=20261104T110000/20261104T130400&ctz=Asia%2FColombo&location=CineMax+Negombo&details=Booking+BK83F0BD83%2C+seats+H12
+Your ticket and booking details are in My bookings on CineMax.
+

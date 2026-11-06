@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Update your CineMax account details.">
+  <meta name="theme-color" content="#f84464">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>My profile · CineMax</title>
+  <script>document.documentElement.setAttribute('data-theme','light');</script>
+  <link rel="stylesheet" href="css/style.css?v=8">
+  <link rel="stylesheet" href="css/fonts.css?v=1">
+  <link rel="stylesheet" href="css/studio.css?v=16">
+</head>
+<body>
+  <header id="topbar" class="topbar"></header>
+
+  <main class="container">
+    <div class="section-head" style="margin-top:2rem">
+      <div>
+        <h1>My profile</h1>
+        <p>Keep your contact details up to date. Your email is used to sign in and cannot be changed.</p>
+      </div>
+    </div>
+
+    <div class="split">
+      <section class="card">
+        <h2>Personal details</h2>
+        <form id="profileForm" novalidate style="margin-top:1rem">
+          <div class="form-row">
+            <div class="field">
+              <label for="fullName">Full name</label>
+              <input id="fullName" required maxlength="100">
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" maxlength="20">
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">Email (cannot be changed)</label>
+            <input id="email" disabled>
+          </div>
+          <div class="field">
+            <label for="newPassword">New password (optional)</label>
+            <input id="newPassword" type="password" minlength="8" maxlength="60" autocomplete="new-password">
+            <span class="hint">Leave this empty to keep your current password. Use at least 8 characters.</span>
+          </div>
+          <div class="error-text" id="error"></div>
+          <button class="btn btn-primary" type="submit">Save changes</button>
+        </form>
+      </section>
+
+      <aside class="stack">
+        <div class="card danger-card">
+          <h3>Delete account</h3>
+          <p>Accounts with booking history cannot be deleted, so payment records stay intact.</p>
+          <button class="btn btn-danger" id="deleteBtn">Delete my account</button>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <script src="js/common.js?v=8"></script>
+  <script>
+    /* Member 1 (User & Authentication) UI: customer READ / UPDATE / DELETE own profile */
+    let me = null;
+
+    async function load() {
+      me = await requireRole('CUSTOMER', 'customer-login.html');
+      if (!me) return;
+      renderNav('profile');
+      const p = await API.get('/api/customer/profile');
+      document.getElementById('fullName').value = p.fullName;
+      document.getElementById('phone').value = p.phone || '';
+      document.getElementById('email').value = p.email;
+    }
+
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const error = document.getElementById('error');
+      error.textContent = '';
+      try {
+        await API.put('/api/customer/profile', {
+          fullName: document.getElementById('fullName').value.trim(),
+          phone: document.getElementById('phone').value.trim() || null,
+          newPassword: document.getElementById('newPassword').value || null
+        });
+        document.getElementById('newPassword').value = '';
+        toast('Profile updated');
+        load();
+      } catch (err) {
+        error.textContent = err.message;
+      }
+    });
+
+    document.getElementById('deleteBtn').addEventListener('click', async () => {
+      if (!confirm('Delete your account? This cannot be undone.')) return;
+      try {
+        await API.del('/api/customer/profile');
+        window.location.href = 'index.html';
+      } catch (err) {
+        toast(err.message, 'err');
+      }
+    });
+
+    load().catch(err => toast(err.message, 'err'));
+  </script>
+</body>
+</html>

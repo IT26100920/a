@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Film details, trailer, cast and showtimes at CineMax.">
+  <meta name="theme-color" content="#f84464">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>Movie · CineMax</title>
+  <script>document.documentElement.setAttribute('data-theme','light');</script>
+  <link rel="stylesheet" href="css/style.css?v=8">
+  <link rel="stylesheet" href="css/fonts.css?v=1">
+  <link rel="stylesheet" href="css/studio.css?v=16">
+  <link rel="stylesheet" href="css/back-button.css?v=1">
+</head>
+<body>
+  <header id="topbar" class="topbar"></header>
+  <div class="detail-backdrop" id="backdrop" aria-hidden="true"></div>
+
+  <main class="container">
+    <a href="index.html" class="btn btn-primary back-btn">Back to movies</a>
+    <div class="loader" id="loading">Loading movie…</div>
+
+    <section class="detail-hero hidden" id="details">
+      <div id="posterBox"></div>
+      <div>
+        <div class="row" id="badges"></div>
+        <h1 class="mt-2" id="title"></h1>
+        <div class="meta mt-1" id="meta"></div>
+        <p class="mt-2" id="description"></p>
+        <div class="credits mt-2" id="credits"></div>
+        <div class="card price-note mt-2">
+          <h3>Ticket prices</h3>
+          <p>Prices are per seat. Screen type, IMAX and 3D surcharges, and time of day (matinee discounts, weekend premiums) are applied automatically at checkout.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="hidden" id="featuresSection">
+      <div class="section-head">
+        <div>
+          <h2>Trailer &amp; scenes</h2>
+          <p>Watch the trailer or browse stills from the film.</p>
+        </div>
+      </div>
+      <div class="feature-row" id="featureRow"></div>
+    </section>
+
+    <section class="hidden" id="showSection">
+      <div class="section-head">
+        <div>
+          <h2>Showtimes</h2>
+          <p>Pick a time to choose your seats.</p>
+        </div>
+      </div>
+      <div class="chips" id="dayChips"></div>
+      <div class="mt-2" id="showList"></div>
+    </section>
+
+  </main>
+  <script src="js/common.js?v=8"></script>
+  <script>
+    /* Member 2 (movie details) + Member 4 (showtime list) UI */
+    const movieId = qs('id');
+    let allShows = [];
+    let activeDay = null;
+
+    async function loadMovie() {
+      if (!movieId) { toast('No movie selected', 'err'); return; }
+      try {
+        const m = await API.get('/api/movies/' + movieId);
+        document.title = m.title + ' · CineMax';
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('details').classList.remove('hidden');
+        document.getElementById('title').textContent = m.title;
+        document.getElementById('badges').innerHTML = formatBadge(m.format) +
+          `<span class="badge">${esc(m.rating || 'NR')}</span>`;
+        document.getElementById('meta').innerHTML =
+          `<span>${esc(m.genre)}</span><span>·</span><span>${m.durationMinutes} min</span><span>·</span><span>${esc(m.language)}</span>` +
+          (m.releaseDate ? `<span>·</span><span>Released ${fmtDate(m.releaseDate)}</span>` : '');
+        document.getElementById('description').textContent = m.description || 'No description yet.';
+        renderCredits(m);
+        renderFeatures(m);
+        document.getElementById('posterBox').innerHTML = m.posterUrl
+          ? `<img class="detail-poster" src="${esc(m.posterUrl)}" alt="${esc(m.title)}">`
+          : `<div class="poster"><span class="initial">${esc(m.title.charAt(0))}</span></div>`;
+        // Ambient backdrop: the blurred poster, or the same gradient as the placeholder poster when there is no image
+        document.getElementById('backdrop').style.backgroundImage = m.posterUrl
+          ? `url("${String(m.posterUrl).replace(/["\\()\s]/g, '')}")`
+          : 'linear-gradient(160deg, #4c1d95, #f84464 60%, #0e7490)';
+        await loadShows();
+      } catch (err) {
+        document.getElementById('loading').textContent = err.message;
+      }
+    }
+
+    /* Director, producer, writer, cast and copyright lines under the description. */
+    function renderCredits(m) {
+      const rows = [['Director', m.director], ['Producer', m.producers], ['Writer', m.writers], ['Cast', m.castMembers]]
+        .filter(([, value]) => value);
+      const year = m.releaseDate ? String(m.releaseDate).slice(0, 4) : new Date().getFullYear();
+      document.getElementById('credits').innerHTML = rows.map(([label, value]) =>
+        `<div class="credit"><span class="credit-label">${label}:</span><span class="credit-value">${esc(value)}</span></div>`
+      ).join('') + `<p class="copyright">© ${year} CineMax Studios. All rights reserved.</p>`;
+    }
+
+    /* Extracts the video id from common YouTube link formats. */
+    function youtubeId(url) {
+      const match = String(url || '').match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/);
+      return match ? match[1] : null;
+    }
+
+    /* Trailer card (plays inline for YouTube) followed by one card per scene still. */
+    function renderFeatures(m) {
+      const cards = [];
+      if (m.trailerUrl) {
+        const id = youtubeId(m.trailerUrl);
+        cards.push(id
+          ? `<button class="feature-card" data-yt="${id}"><div class="feature-thumb"><img src="https://img.youtube.com/vi/${id}/hqdefault.jpg" alt=""><span class="play">▶</span></div><strong>${esc(m.title)}: Trailer</strong><small>Click to play</small></button>`
+          : `<a class="feature-card" href="${esc(m.trailerUrl)}" target="_blank" rel="noopener"><div class="feature-thumb"><span class="play">▶</span></div><strong>${esc(m.title)}: Trailer</strong><small>Watch online</small></a>`);
+      } else {
+        cards.push(`<div class="feature-card disabled"><div class="feature-thumb"><span class="play">▶</span></div><strong>Trailer</strong><small>Coming soon</small></div>`);
+      }
+      (m.stills || []).forEach((url, i) => cards.push(
+        `<a class="feature-card" href="${esc(url)}" target="_blank" rel="noopener"><div class="feature-thumb"><img src="${esc(url)}" alt="${esc(m.title)} scene ${i + 1}" loading="lazy"></div><strong>Scene ${i + 1}</strong><small>Still image</small></a>`));
+      document.getElementById('featureRow').innerHTML = cards.join('');
+      document.querySelectorAll('[data-yt]').forEach(btn => btn.addEventListener('click', () => {
+        btn.outerHTML = `<div class="feature-card wide"><div class="feature-thumb"><iframe src="https://www.youtube.com/embed/${btn.dataset.yt}?autoplay=1" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media" allowfullscreen title="Trailer"></iframe></div><small><a href="https://www.youtube.com/watch?v=${btn.dataset.yt}" target="_blank" rel="noopener">Watch on YouTube</a></small></div>`;
+      }));
+      document.getElementById('featuresSection').classList.remove('hidden');
+    }
+
+    async function loadShows() {
+      allShows = await API.get('/api/shows?movieId=' + movieId);
+      document.getElementById('showSection').classList.remove('hidden');
+      const days = [...new Set(allShows.map(s => dayKey(s.startTime)))];
+      if (days.length === 0) {
+        document.getElementById('showList').innerHTML = '<div class="empty card">No upcoming showtimes for this movie.</div>';
+        return;
+      }
+      activeDay = days[0];
+      document.getElementById('dayChips').innerHTML = days.map(d => {
+        const label = new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short' });
+        return `<button class="chip" data-day="${d}">${label}</button>`;
+      }).join('');
+      document.querySelectorAll('#dayChips .chip').forEach(btn => btn.addEventListener('click', () => {
+        activeDay = btn.dataset.day;
+        renderShows();
+      }));
+      renderShows();
+    }
+
+    function renderShows() {
+      document.querySelectorAll('#dayChips .chip').forEach(b => b.classList.toggle('active', b.dataset.day === activeDay));
+      const shows = allShows.filter(s => dayKey(s.startTime) === activeDay);
+      const groups = {};
+      shows.forEach(s => { (groups[s.theatreName + ' · ' + s.screenName] ||= []).push(s); });
+      document.getElementById('showList').innerHTML = Object.keys(groups).length === 0
+        ? '<div class="empty card">No shows on this day.</div>'
+        : Object.entries(groups).map(([name, list]) => `
+          <div class="show-group card">
+            <h3>${esc(name)} <span class="badge badge-muted">${esc(list[0].screenType)}</span></h3>
+            <div class="show-list mt-1">
+              ${list.map(s => `
+                ${s.availableSeats > 0 ? `
+                <a class="show-btn" href="booking.html?showId=${s.id}">
+                  <strong>${fmtTime(s.startTime)}</strong>
+                  <small>${money(s.seatPrice)} / seat · ${esc(s.pricingStrategy)}</small>
+                  <small>${s.availableSeats} of ${s.totalSeats} seats left</small>
+                </a>` : `
+                <div class="show-btn is-full">
+                  <strong>${fmtTime(s.startTime)}</strong>
+                  <small>Sold out</small>
+                </div>`}`).join('')}
+            </div>
+          </div>`).join('');
+    }
+
+    renderNav('movies');
+    loadMovie();
+  </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Admin tools for the core movie-booking student demo.">
+  <meta name="theme-color" content="#f84464">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>Staff dashboard · CineMax</title>
+  <script>document.documentElement.setAttribute('data-theme','light');</script>
+  <link rel="stylesheet" href="css/style.css?v=10">
+  <link rel="stylesheet" href="css/fonts.css?v=1">
+  <link rel="stylesheet" href="css/studio.css?v=16">
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="sidebar">
+      <a class="brand" href="index.html"><img class="logo-img" src="/img/logo.svg" alt=""><span>CineMax Admin</span></a>
+      <nav id="sideNav" class="side-nav"></nav>
+      <div class="sidebar-foot">
+<a class="btn btn-ghost btn-sm" href="index.html">View public site</a>
+        <button class="btn btn-danger btn-sm" id="logoutBtn">Log out</button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <div class="toolbar">
+        <div>
+          <h1 id="sectionTitle">Dashboard</h1>
+          <p id="sectionOwner" class="muted"></p>
+        </div>
+      </div>
+      <div id="sectionBody"><div class="loader">Loading…</div></div>
+    </main>
+  </div>
+
+  <!-- Generic create / edit dialog used by every CRUD section -->
+  <div class="modal-backdrop" id="modal">
+    <div class="card modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <h2 id="modalTitle">Form</h2>
+        <button class="btn btn-ghost btn-sm" type="button" id="modalClose" aria-label="Close">✕</button>
+      </div>
+      <form id="modalForm"></form>
+    </div>
+  </div>
+
+  <div class="toast-wrap"></div>
+  <script src="js/common.js?v=8"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/admin.js?v=7"></script>
+</body>
+</html>
